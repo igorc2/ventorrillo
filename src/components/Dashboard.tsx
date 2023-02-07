@@ -1,6 +1,6 @@
 'use client'
-import { Grid, GridItem, Text } from '@chakra-ui/react'
-import { format, compareAsc } from 'date-fns'
+import { Box, Grid, GridItem, Text } from '@chakra-ui/react'
+import { format } from 'date-fns'
 import { DashboardCard } from './DashboardCard'
 import { NumberInfoCard } from './NumberInfoCard'
 import {
@@ -9,6 +9,8 @@ import {
 import { MdOutlineSavings } from 'react-icons/md'
 
 import { FiTrendingDown, FiTrendingUp } from 'react-icons/fi'
+import LineChart from './LineChart'
+import { SavingProgressInfo } from './SavingProgressInfo'
 
 export default function Dashboard() {
   const result = format(new Date(2014, 6, 2), "EEE, do MMMM yyyy")
@@ -19,12 +21,11 @@ export default function Dashboard() {
 
       <Grid
         paddingTop={8}
-        h='75vh'
         templateRows='repeat(2, 1fr)'
-        templateColumns='repeat(3, 1fr)'
+        templateColumns='repeat(5, 1fr)'
         gap={8}
       >
-        <GridItem colSpan={2}>
+        <GridItem colSpan={3}>
           <DashboardCard  title="Overview" >
           <Grid
             templateRows='repeat(2, 1fr)'
@@ -35,6 +36,7 @@ export default function Dashboard() {
             <GridItem>
               <NumberInfoCard
                 title='Your Balance'
+                isPrimary
                 subTitle='15% compared with last month'
                 value={12240}
                 icon={IoWalletOutline}
@@ -67,17 +69,24 @@ export default function Dashboard() {
           </Grid>
           </DashboardCard>
         </GridItem>
-        <GridItem colSpan={1}>
-          <DashboardCard  title="Next bills" >
-            oi
+        <GridItem colSpan={2}>
+          <DashboardCard  title="Saving Plan" >
+            <SavingProgressInfo
+              total={4000}
+              current={1950.20}
+              title='Bali Vacation'
+              dueDate='2023-08-02'
+            ></SavingProgressInfo>
+          </DashboardCard>
+        </GridItem>
+        <GridItem colSpan={3}>
+          <DashboardCard  title="Analytics" >
+            <Box h={'350px'}>
+              <LineChart />
+            </Box>
           </DashboardCard>
         </GridItem>
         <GridItem colSpan={2}>
-          <DashboardCard  title="Analytics" >
-            oi
-          </DashboardCard>
-        </GridItem>
-        <GridItem colSpan={1}>
           <DashboardCard  title="Recent transactions" >
             oi
           </DashboardCard>

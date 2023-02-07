@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+  import React, { ReactNode } from 'react';
 import {
   IconButton,
   Avatar,
@@ -74,7 +74,7 @@ export default function Navbar({
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p="8">
         {children}
       </Box>
     </Box>

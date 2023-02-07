@@ -13,6 +13,5 @@ export function DashboardCard(props: IDashboardCardProps) {
       <Text fontSize='xl'>{title}</Text>
       {children}
     </Box>
-    
   )
 }
