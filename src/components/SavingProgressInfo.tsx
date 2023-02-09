@@ -14,13 +14,13 @@ export function SavingProgressInfo(props: ISavingProgressInfo) {
   const progress = Math.floor(current / total * 100)
   const date = format(new Date(dueDate), "EEE, do MMMM yyyy")
   return (
-    <>
+    <div>
       <Flex>
-        <Box p='2'>
+        <Box p='2' paddingBottom='1'>
           <Heading size='sm' as='h5'>{title}</Heading>
         </Box>
         <Spacer />
-        <Box p='2'>
+        <Box p='2' paddingBottom='1'>
           <Text fontSize='md' color='gray.500'>target: {date}</Text>
         </Box>
       </Flex>
@@ -31,14 +31,15 @@ export function SavingProgressInfo(props: ISavingProgressInfo) {
         </Box>
         <Spacer />
         <Box p='2'>
-          <Text fontSize='2xl' colorScheme='teal'>{progress}%</Text>
+          <Text color={`${color}.500`} fontSize='2xl' >{progress}%</Text>
         </Box>
       </Flex>
       <Progress
+        colorScheme={color}
         value={progress}
         color={color}
       ></Progress>
-    </>
+    </div>
   )
 
 }

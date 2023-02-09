@@ -22,6 +22,7 @@ import {
   MenuItem,
   MenuList,
   Button,
+  useColorMode,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -35,6 +36,7 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
+import { SunIcon } from '@chakra-ui/icons';
 
 interface LinkItemProps {
   name: string;
@@ -152,6 +154,7 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const { toggleColorMode } = useColorMode()
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -180,6 +183,13 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
+        <IconButton
+          size="lg"
+          variant="ghost"
+          aria-label="toggle light/dark mode"
+          icon={<SunIcon />}
+          onClick={toggleColorMode}
+        />
         <IconButton
           size="lg"
           variant="ghost"
