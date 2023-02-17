@@ -1,4 +1,5 @@
-  import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+import NextLink from 'next/link'
 import {
   IconButton,
   Avatar,
@@ -39,15 +40,16 @@ import { ReactText } from 'react';
 import { SunIcon } from '@chakra-ui/icons';
 
 interface LinkItemProps {
-  name: string;
-  icon: IconType;
+  name: string
+  icon: IconType
+  url: string
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
+  { name: 'Home', icon: FiHome, url: '/' },
+  { name: 'Trending', icon: FiTrendingUp, url: '/transactions' },
+  { name: 'Explore', icon: FiCompass, url: '/' },
+  { name: 'Favourites', icon: FiStar, url: '/' },
+  { name: 'Settings', icon: FiSettings, url: '/' },
 ];
 
 export default function Navbar({
@@ -107,7 +109,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} url={link.url} icon={link.icon}>
           {link.name}
         </NavItem>
       ))}
@@ -118,10 +120,11 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 interface NavItemProps extends FlexProps {
   icon: IconType;
   children: ReactText;
+  url: string
 }
-const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ url, icon, children, ...rest }: NavItemProps) => {
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <NextLink href={url} style={{ textDecoration: 'none' }}>
       <Flex
         align="center"
         p="4"
@@ -146,7 +149,7 @@ const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
         )}
         {children}
       </Flex>
-    </Link>
+    </NextLink>
   );
 };
 
