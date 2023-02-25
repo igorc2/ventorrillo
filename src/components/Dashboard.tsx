@@ -84,7 +84,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Text fontSize='3xl'>Welcome, Justina</Text>
+      <Text fontSize='3xl'>Welcome, Morena</Text>
       <Text fontSize='l'  color='gray.500'>{formattedToday()}</Text>
 
       <Grid
