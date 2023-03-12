@@ -89,15 +89,15 @@ export default function Dashboard() {
 
       <Grid
         paddingTop={8}
-        templateRows='repeat(2, 1fr)'
-        templateColumns='repeat(5, 1fr)'
+        templateRows={{ base: 'repeat(4, 1fr)', md: 'repeat(2, 1fr)'}}
+        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)'}}
         gap={8}
       >
         <GridItem colSpan={3}>
           <DashboardCard  title="Overview" >
           <Grid
-            templateRows='repeat(2, 1fr)'
-            templateColumns='repeat(2, 1fr)'
+            templateRows={{ base: 'repeat(4, 1fr)', md: 'repeat(2, 1fr)'}}
+            templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)'}}
             gap={8}
             mt="4"
           >
@@ -137,7 +137,7 @@ export default function Dashboard() {
           </Grid>
           </DashboardCard>
         </GridItem>
-        <GridItem colSpan={2}>
+        <GridItem colSpan={{ base: 3, md: 2}}>
           <DashboardCard  title="Saving Plan" >
             <Flex flexDirection={'column'} gap={8}>
               {savingPlans.map((savingPlan) => (
@@ -162,7 +162,7 @@ export default function Dashboard() {
             </Box>
           </DashboardCard>
         </GridItem>
-        <GridItem colSpan={2}>
+        <GridItem colSpan={{ base: 3, md: 2}}>
           <DashboardCard  title="Recent transactions" >
             {transactions.map((transaction) => (
               <TransactionItem

@@ -6,50 +6,53 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Heading,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Link,
   NumberInput,
   NumberInputField,
   Stack,
   Textarea,
-  Tooltip,
-  useClipboard,
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { Select } from "chakra-react-select";
 import React from "react";
-import { BsCurrencyDollar } from "react-icons/bs";
-import { MdEmail, MdOutlineEmail } from "react-icons/md";
 
-const confetti = {
-  light: {
-    primary: "D28A91", // blue.400
-    secondary: "BEE3F8", // blue.100
+const sources = [
+  {
+    label: "Bank account",
+    value: "bank",
+    colorScheme: "red", // The option color scheme overrides the global
   },
-
-  dark: {
-    primary: "1A365D", // blue.900
-    secondary: "2A4365", // blue.800
+  {
+    label: "Credit Card",
+    value: "credit",
   },
-};
+]
 
-export default function ContactFormWithSocialButtons() {
+const categories = [
+  {
+    label: "Lunch",
+    value: "lunch",
+    colorScheme: "red",
+  },
+  {
+    label: "Pharmacy",
+    value: "pharmacy",
+  },
+  {
+    label: "Supermarket",
+    value: "supermarket",
+  },
+]
 
-  // const format = (val: string) => `$` + val
-  // const parse = (val: string) => val.replace(/^\$/, '')
+export default function TransactionForm() {
+
 
   const [value, setValue] = React.useState('')
   const [date, setDate] = React.useState(new Date())
 
   return (
     <Flex
-      bg={useColorModeValue("gray.100", "gray.900")}
       align="center"
       justify="center"
       id="contact"
@@ -81,43 +84,23 @@ export default function ContactFormWithSocialButtons() {
                       value={value}
                     >
                       <NumberInputField />
-                      {/* <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper> */}
                     </NumberInput>
                   </FormControl>
 
                   <FormControl isRequired>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Category</FormLabel>
                     <Select
                       colorScheme="purple"
-                      options={[
-                        {
-                          label: "coisa",
-                          value: "coisa",
-                          colorScheme: "red", // The option color scheme overrides the global
-                        },
-                        {
-                          label: "outro",
-                          value: "outro",
-                        },
-                        {
-                          label: "coiso",
-                          value: "coiso",
-                        },
-                      ]}
+                      options={categories}
                     />
-                    {/* <InputGroup>
-                      <InputLeftElement>
-                        <MdOutlineEmail />
-                      </InputLeftElement>
-                      <Input
-                        type="email"
-                        name="email"
-                        placeholder="Your Email"
-                      />
-                    </InputGroup> */}
+                  </FormControl>
+
+                  <FormControl isRequired>
+                    <FormLabel>Source</FormLabel>
+                    <Select
+                      colorScheme="purple"
+                      options={sources}
+                    />
                   </FormControl>
 
                   <FormControl isRequired>

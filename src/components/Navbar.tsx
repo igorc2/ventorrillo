@@ -46,7 +46,7 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Home', icon: FiHome, url: '/' },
-  { name: 'Trending', icon: FiTrendingUp, url: '/transactions' },
+  { name: 'Transactions', icon: FiTrendingUp, url: '/transactions' },
   { name: 'Explore', icon: FiCompass, url: '/' },
   { name: 'Favourites', icon: FiStar, url: '/' },
   { name: 'Settings', icon: FiSettings, url: '/' },
