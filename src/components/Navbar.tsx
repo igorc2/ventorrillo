@@ -237,7 +237,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
+              <MenuItem>Billing coiso</MenuItem>
               <MenuDivider />
               <MenuItem onClick={registerModal.onOpen}>Sign up</MenuItem>
               <MenuItem>Sign out</MenuItem>
