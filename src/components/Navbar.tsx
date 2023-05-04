@@ -38,6 +38,7 @@ import {
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import { SunIcon } from '@chakra-ui/icons';
+import useRegisterModal from '@/hooks/useRegisterModal';
 
 interface LinkItemProps {
   name: string
@@ -157,6 +158,10 @@ interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+
+
+  const registerModal = useRegisterModal()
+
   const { toggleColorMode } = useColorMode()
   return (
     <Flex
@@ -234,6 +239,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
+              <MenuItem onClick={registerModal.onOpen}>Sign up</MenuItem>
               <MenuItem>Sign out</MenuItem>
             </MenuList>
           </Menu>

@@ -1,4 +1,5 @@
 'use client'
+import { RegisterModal } from '@/components/modals'
 import Navbar from '@/components/Navbar'
 import theme from '@/theme'
 import { ChakraProvider } from '@chakra-ui/react'
@@ -34,6 +35,7 @@ export default function RootLayout({
             <Navbar>
               {children}
             </Navbar>
+            <RegisterModal />
           </ChakraProvider>
         </main>
       </body>

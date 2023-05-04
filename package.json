@@ -13,12 +13,16 @@
     "@chakra-ui/react": "^2.4.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@next-auth/prisma-adapter": "^1.0.6",
     "@next/font": "13.1.6",
     "@nivo/line": "^0.80.0",
+    "@prisma/client": "^4.13.0",
     "@tanstack/react-table": "^8.7.9",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
     "chakra-dayzed-datepicker": "^0.2.7",
     "chakra-react-select": "^4.5.0",
     "date-fns": "^2.29.3",
@@ -26,10 +30,17 @@
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "framer-motion": "^8.5.4",
-    "next": "13.1.6",
+    "next": "13.3.4",
+    "next-auth": "^4.22.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-icons": "^4.7.1",
-    "typescript": "4.9.4"
+    "typescript": "4.9.4",
+    "zustand": "^4.3.7"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "prisma": "^4.13.0"
   }
 }

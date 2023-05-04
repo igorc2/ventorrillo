@@ -42,3 +42,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - Adding multiselect - https://www.npmjs.com/package/chakra-react-select
 - Adding datepicker - https://www.npmjs.com/package/chakra-dayzed-datepicker
+
+## Source 
+- https://api.omny.fm/api/programs/modus-operandi/clips/153-adnan-syed-erro-da-justi-a-parte-2

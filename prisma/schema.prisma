@@ -1,0 +1,94 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
+  email String   @unique
+  emailVerified DateTime?
+  image String?
+  hashedPassword String
+  date DateTime @default(now())
+
+  accounts Account[]
+  transactions Transaction[]
+  userSources UserSource[]
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  type String
+  provider String
+  providerAccountId String
+  refresh_token String? @db.String
+  access_token String? @db.String
+  expires_at Int?
+  token_type String?
+  scope String?
+  id_token String?
+  session_state String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Transaction {
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
+  amount Float
+  description String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactionCategory TransactionCategory @relation(fields: [transactionCategoryId], references: [id])
+  transactionCategoryId String @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
+
+  source Source @relation(fields: [sourceId], references: [id])
+  sourceId String @db.ObjectId
+
+  @@unique([userId])
+  
+}
+
+model TransactionCategory {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String?
+
+  transation Transaction[]
+}
+
+model TransactionType {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String?
+}
+
+model Source {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String?
+
+  userSources UserSource[]
+  transactions Transaction[]
+}
+
+model UserSource {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  sourceId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  source Source @relation(fields: [sourceId], references: [id])
+}
