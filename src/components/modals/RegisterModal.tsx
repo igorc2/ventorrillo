@@ -157,14 +157,14 @@ export const RegisterModal= () => {
       <Button
         variant='outline'
         leftIcon={<FcGoogle />}
-        onClick={() => signIn('google')} 
+        // onClick={() => signIn('google')} 
       >
         Continue with Google
       </Button>
       <Button 
         variant='outline '
         leftIcon={<AiFillGithub />}
-        onClick={() => signIn('github')}
+        // onClick={() => signIn('github')} 
       >
         Continue with Github
       </Button>
