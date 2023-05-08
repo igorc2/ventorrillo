@@ -2,7 +2,6 @@
 
 import { Button, Flex, Modal as BaseModal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
 
 interface ModalProps {
   isOpen?: boolean;
@@ -47,8 +46,6 @@ export const Modal: React.FC<ModalProps> = ({
   }, [onClose, disabled])
 
   const handleSubmit = useCallback(() => {
-    console.log('opa :>> ');
-    console.log('onSubmit', onSubmit)
     if (disabled) {
       return
     }
@@ -84,6 +81,7 @@ export const Modal: React.FC<ModalProps> = ({
               direction={'column'}
               align={'center'}
               justify={'center'}
+              w={'100%'}
             >
               {secondaryAction && secondaryActionLabel && (
                 <Button
@@ -98,7 +96,7 @@ export const Modal: React.FC<ModalProps> = ({
                 colorScheme="blue"
                 bg="blue.400"
                 color="white"
-                width={200}
+                width={'full'}
                 disabled={disabled} 
                 onClick={handleSubmit}
               >

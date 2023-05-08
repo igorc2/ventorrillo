@@ -10,7 +10,6 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -39,6 +38,9 @@ import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import { SunIcon } from '@chakra-ui/icons';
 import useRegisterModal from '@/hooks/useRegisterModal';
+import useLoginModal from '@/hooks/useLoginModal';
+import { signOut } from 'next-auth/react'
+import { SafeUser } from '@/types';
 
 interface LinkItemProps {
   name: string
@@ -53,11 +55,15 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Settings', icon: FiSettings, url: '/' },
 ];
 
-export default function Navbar({
+interface NavbarProps {
+  currentUser?: SafeUser | null
+  children?: ReactNode
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
   children,
-}: {
-  children?: ReactNode;
-}) {
+  currentUser,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
@@ -78,7 +84,7 @@ export default function Navbar({
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
+      <MobileNav currentUser={currentUser} onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="8">
         {children}
       </Box>
@@ -154,13 +160,17 @@ const NavItem = ({ url, icon, children, ...rest }: NavItemProps) => {
   );
 };
 
-interface MobileProps extends FlexProps {
-  onOpen: () => void;
+interface MobileNavProps extends FlexProps {
+  onOpen: () => void
+  currentUser?: SafeUser | null
 }
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const MobileNav: React.FC<MobileNavProps> = ({ onOpen, currentUser, ...rest }) => {
+
+  console.log('currentUser', currentUser)
 
 
   const registerModal = useRegisterModal()
+  const loginModal = useLoginModal()
 
   const { toggleColorMode } = useColorMode()
   return (
@@ -173,7 +183,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
-      {...rest}>
+    {...rest}>
       <IconButton
         display={{ base: 'flex', md: 'none' }}
         onClick={onOpen}
@@ -234,13 +244,23 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             </MenuButton>
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
-              borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing coiso</MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={registerModal.onOpen}>Sign up</MenuItem>
-              <MenuItem>Sign out</MenuItem>
+              borderColor={useColorModeValue('gray.200', 'gray.700')}
+            >
+              {currentUser ? (
+                <>
+                  <MenuItem>Profile</MenuItem>
+                  <MenuItem>Profile</MenuItem>
+                  <MenuItem>Settings</MenuItem>
+                  <MenuItem>Billing coiso</MenuItem>
+                  <MenuDivider />
+                  <MenuItem onClick={() => signOut()}>Logout</MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem onClick={loginModal.onOpen}>Login</MenuItem>
+                  <MenuItem onClick={registerModal.onOpen}>Sign up</MenuItem>
+                </>
+              )}
             </MenuList>
           </Menu>
         </Flex>

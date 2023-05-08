@@ -1,11 +1,11 @@
-'use client'
-import { RegisterModal } from '@/components/modals'
-import Navbar from '@/components/Navbar'
-import theme from '@/theme'
-import { ChakraProvider } from '@chakra-ui/react'
+import getCurrentUser from '@/actions/getCurrentUser'
 import { Inter, Montserrat } from '@next/font/google'
-import styles from '../styles/component.module.css'
+import { Client } from './client'
 
+export const metadata = {
+  title: 'Ventorrillo App',
+  description: 'Ventorrillo app',
+}
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,26 +17,22 @@ const montserrat = Montserrat({
   variable: '--montserrat-font',
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  const currentUser = await getCurrentUser()
+
   return (
     <html lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
       <head />
       <body>
         <main className={`${montserrat.className} ${inter.variable}`}>
-          <ChakraProvider theme={theme}>
-            <Navbar>
-              {children}
-            </Navbar>
-            <RegisterModal />
-          </ChakraProvider>
+          <Client currentUser={currentUser}>
+            {children}
+          </Client>
         </main>
       </body>
     </html>

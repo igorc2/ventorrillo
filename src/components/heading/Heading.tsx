@@ -15,8 +15,8 @@ export const Heading: React.FC<HeadingProps> = ({
 }) => {
   return ( 
     <Box>
-      <Center><Text fontSize='2xl' color="blue.700">{title}</Text></Center>
-      <Center><Text fontSize='lg' color="blue.400">{subtitle}</Text></Center>
+      <Center><Text fontSize='2xl' fontWeight='bold' color="blue.700" mb='4'>{title}</Text></Center>
+      <Center><Text fontSize='md' color="blue.600">{subtitle}</Text></Center>
     </Box>
    )
 }

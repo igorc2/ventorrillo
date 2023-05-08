@@ -1,8 +1,8 @@
 'use client'
 
 import axios from 'axios'
+import { signIn } from 'next-auth/react'
 import { AiFillGithub } from 'react-icons/ai'
-// import { signIn } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc'
 import { useCallback, useState } from 'react'
 import { 
@@ -11,7 +11,6 @@ import {
   useForm
 } from 'react-hook-form'
 
-// import useLoginModal from '@/app/hooks/useLoginModal'
 
 import { Modal } from './Modal'
 import { Heading } from '../heading'
@@ -28,13 +27,14 @@ import {
   Text
 } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react'
-import useRegisterModal from '@/hooks/useRegisterModal'
+import useLoginModal from '@/hooks/useLoginModal'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { useRouter } from 'next/navigation'
 
 
-export const RegisterModal= () => {
-  const registerModal = useRegisterModal()
-  // const loginModal = useLoginModal()
+export const LoginModal= () => {
+  const loginModal = useLoginModal()
+  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -48,52 +48,54 @@ export const RegisterModal= () => {
     },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: '',
       email: '',
       password: ''
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+
     setIsLoading(true);
 
-    axios.post('/api/register', data)
-      .then(() => {
+    console.log('data :>> ', data);
+
+    signIn('credentials', {
+      ...data,
+      redirect: false,
+    })
+    .then((callback) => {
+      if (callback?.ok) {
         toast({
-          title: 'Account created.',
-          description: "We've created your account for you.",
+          title: 'Success',
+          description: 'Logged in successfully',
           status: 'success',
           duration: 9000,
           isClosable: true,
         })
-        registerModal.onClose();
-        // loginModal.onOpen();
-      })
-      .catch((error) => {
+        router.refresh()
+        loginModal.onClose()
+      } else {
         toast({
-          title: 'Something went wrong',
-          description: error.message,
+          title: 'Error',
+          description: callback?.error,
           status: 'error',
           duration: 9000,
           isClosable: true,
         })
-      })
-      .finally(() => {
-        setIsLoading(false);
-      })
+      }
+    })
+
   }
 
   const onToggle = useCallback(() => {
-    registerModal.onClose();
-    // loginModal.onOpen();
-  // }, [registerModal, loginModal])
-  }, [registerModal])
+    loginModal.onClose();
+  }, [loginModal])
 
   const bodyContent = (
     <Flex gap={4} direction={'column'}>
       <Heading
-        title="Welcome to Ventorrillo"
-        subtitle="Create an account!"
+        title="Welcome back to Ventorrillo"
+        subtitle="Log in to your account!"
       />
       <FormControl isInvalid={!!errors.email} >
         <FormLabel>Email address</FormLabel>
@@ -110,21 +112,6 @@ export const RegisterModal= () => {
           {/* <p>{errors.email && errors.email.message}</p> */}
         </FormErrorMessage>
       </FormControl>
-      <FormControl isRequired mb={3}>
-        <FormLabel>Name</FormLabel>
-        <Input
-          type="name" 
-          id="name"
-          disabled={isLoading}
-          {...register('name', {
-            required: 'This is required',
-            minLength: { value: 2, message: 'Minimum length should be 2' },
-          })}
-        />
-        <FormErrorMessage>
-          {/* <p>{errors.name && errors.name.message}</p> */}
-        </FormErrorMessage>
-      </FormControl >
       <FormControl isRequired mb={3}>
         <FormLabel>Password</FormLabel>
         <InputGroup>
@@ -190,10 +177,10 @@ export const RegisterModal= () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title="Register"
+      isOpen={loginModal.isOpen}
+      title="Login"
       actionLabel="Continue"
-      onClose={registerModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
