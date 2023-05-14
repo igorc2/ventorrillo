@@ -89,7 +89,7 @@ export default function Dashboard() {
 
       <Grid
         paddingTop={8}
-        templateRows={{ base: 'repeat(4, 1fr)', md: 'repeat(2, 1fr)'}}
+        templateRows={{ base: 'repeat(4, min-content)', md: 'repeat(2, 1fr)'}}
         templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)'}}
         gap={8}
       >

@@ -41,6 +41,7 @@ import useRegisterModal from '@/hooks/useRegisterModal';
 import useLoginModal from '@/hooks/useLoginModal';
 import { signOut } from 'next-auth/react'
 import { SafeUser } from '@/types';
+import { MdOutlineSavings } from 'react-icons/md';
 
 interface LinkItemProps {
   name: string
@@ -50,7 +51,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Home', icon: FiHome, url: '/' },
   { name: 'Transactions', icon: FiTrendingUp, url: '/transactions' },
-  { name: 'Explore', icon: FiCompass, url: '/' },
+  { name: 'Savings', icon: MdOutlineSavings, url: '/savings' },
   { name: 'Favourites', icon: FiStar, url: '/' },
   { name: 'Settings', icon: FiSettings, url: '/' },
 ];
@@ -116,7 +117,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} url={link.url} icon={link.icon}>
+        <NavItem key={link.name} url={link.url} icon={link.icon} onClick={onClose}>
           {link.name}
         </NavItem>
       ))}
@@ -223,19 +224,19 @@ const MobileNav: React.FC<MobileNavProps> = ({ onOpen, currentUser, ...rest }) =
               <HStack>
                 <Avatar
                   size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
+                  src={currentUser?.image || 'https://avatars.githubusercontent.com/u/8186664?v=4'}
                 />
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">Morena Smith</Text>
-                  <Text fontSize="xs" color="gray.600">
-                    Admin
-                  </Text>
+                  <Text fontSize="sm">{currentUser?.name || 'Visitor'}</Text>
+                  {currentUser ? (
+                    <Text fontSize="xs" color="gray.600">
+                      Admin
+                    </Text>
+                  ): null }
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
                   <FiChevronDown />
