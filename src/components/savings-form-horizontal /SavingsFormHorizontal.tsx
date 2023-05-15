@@ -46,12 +46,12 @@ const categories = [
 
 export interface IInvestment {
   initialInvestmentValue: string
-  currentValue?: string
-  dividends?: string
   createdAt: Date
   institution: { label: string; value: string }
   description: string
   category: { label: string; value: string }
+  currentValue?: string
+  dividends?: string
 }
 
 

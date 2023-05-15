@@ -1,6 +1,7 @@
 'use client'
 
 import { IInvestment, SavingsFormHorizontal } from '@/components/savings-form-horizontal /SavingsFormHorizontal'
+import { SavingsTable } from '@/components/savings-form-horizontal /SavingsTable'
 import * as React from 'react'
 
 export default function Transactions(): React.ReactNode {
@@ -14,7 +15,7 @@ export default function Transactions(): React.ReactNode {
   return (
     <>
       <SavingsFormHorizontal onSubmitInvestment={handleSubmit}/>
-      <code>{ JSON.stringify(values) }</code>
+      <SavingsTable investments={values} />
     </>
   )
 }

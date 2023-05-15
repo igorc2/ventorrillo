@@ -28,11 +28,11 @@ const columns = [
   })
 ];
 
-interface ITransactionsTableProps {
+interface ISavingsTableProps {
   investments: IInvestment[]
 }
 
-export function TransactionsTable({ investments } : ITransactionsTableProps) {
+export function SavingsTable({ investments } : ISavingsTableProps) {
   return (
     <DataTable columns={columns} data={investments} />
   )
