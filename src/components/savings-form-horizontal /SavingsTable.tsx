@@ -16,11 +16,11 @@ const columns = [
     }
   }),
   columnHelper.accessor("createdAt", {
-    cell: (info) => info.getValue(),
+    cell: (info) => info.getValue().toDateString(),
     header: "Into"
   }),
   columnHelper.accessor("category", {
-    cell: (info) => info.getValue(),
+    cell: (info) => info.getValue().value,
     header: "Multiply by",
     meta: {
       isNumeric: true
