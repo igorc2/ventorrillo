@@ -1,14 +1,14 @@
 'use client'
 
-import { SavingsFormHorizontal } from '@/components/savings-form-horizontal /SavingsFormHorizontal'
+import { IInvestment, SavingsFormHorizontal } from '@/components/savings-form-horizontal /SavingsFormHorizontal'
 import * as React from 'react'
 
 export default function Transactions(): React.ReactNode {
 
   const [values, setValues] = React.useState({})
  
-  const handleSubmit = (data) => {
-    setValues(data)
+  const handleSubmit = (investment: IInvestment) => {
+    setValues(investment)
   }
 
   return (

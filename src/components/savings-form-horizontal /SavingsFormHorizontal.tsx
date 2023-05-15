@@ -14,7 +14,7 @@ import {
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
 import { Select } from "chakra-react-select";
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const sources = [
   {
@@ -44,11 +44,24 @@ const categories = [
   },
 ]
 
-export function SavingsFormHorizontal({ onSubmitInvestment }) {
+export interface IInvestment {
+  investmentValue: string
+  createdAt: Date
+  institution: { label: string; value: string }
+  description: string
+  category: { label: string; value: string }
+}
 
-  const { register, control, handleSubmit } = useForm();
-  const onSubmit = data => onSubmitInvestment(data);
 
+interface SavingFormsHorizontalProps {
+  onSubmitInvestment: (data: IInvestment) => void
+}
+
+export function SavingsFormHorizontal (props : SavingFormsHorizontalProps) : JSX.Element {
+
+  const { register, control, handleSubmit } = useForm<IInvestment>();
+  const onSubmit : SubmitHandler<IInvestment> = props.onSubmitInvestment
+  
   return ( 
 
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -71,17 +84,22 @@ export function SavingsFormHorizontal({ onSubmitInvestment }) {
             <Stack spacing={5} direction={{ base: "column", md: "row" }}>
               <FormControl isRequired>
                 <FormLabel>Value</FormLabel>
-                  <NumberInput
-                    {...register("investmentValue")}
-                  >
-                  <NumberInputField />
-                </NumberInput>
+                <Controller
+                  name="investmentValue"
+                  control={control}
+                  render={({ field }) => <NumberInput
+                    {...field}
+                    >
+                    <NumberInputField />
+                  </NumberInput>}
+                />
+                  
               </FormControl>
 
               <FormControl isRequired>
                 <FormLabel>Type</FormLabel>
                 <Controller
-                  name="categories"
+                  name="category"
                   control={control}
                   render={({ field }) => <Select 
                     {...field} 
@@ -105,7 +123,7 @@ export function SavingsFormHorizontal({ onSubmitInvestment }) {
               <FormControl isRequired>
                 <FormLabel>Date</FormLabel>
                 <Controller
-                  name="dateInput"
+                  name="createdAt"
                   control={control}
                   render={({ field }) => <SingleDatepicker
                     date={field.value}
