@@ -45,7 +45,9 @@ const categories = [
 ]
 
 export interface IInvestment {
-  investmentValue: string
+  initialInvestmentValue: string
+  currentValue?: string
+  dividends?: string
   createdAt: Date
   institution: { label: string; value: string }
   description: string
@@ -85,7 +87,7 @@ export function SavingsFormHorizontal (props : SavingFormsHorizontalProps) : JSX
               <FormControl isRequired>
                 <FormLabel>Value</FormLabel>
                 <Controller
-                  name="investmentValue"
+                  name="initialInvestmentValue"
                   control={control}
                   render={({ field }) => <NumberInput
                     {...field}
@@ -129,15 +131,8 @@ export function SavingsFormHorizontal (props : SavingFormsHorizontalProps) : JSX
                     date={field.value}
                     onDateChange={(date) => field.onChange(date)}
 
-                    // {...register("dateInput")}
-                    // {...field}
                   />}
                 />
-                {/* <SingleDatepicker
-                  date={date}
-                  onDateChange={setDate}
-                  {...register("dateInput")}
-                /> */}
               </FormControl>
 
 

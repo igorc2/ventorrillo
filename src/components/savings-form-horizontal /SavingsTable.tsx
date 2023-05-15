@@ -2,44 +2,24 @@
 
 import * as React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { DataTable } from "./DataTable";
+import { DataTable } from "../transations-table/DataTable";
+import { IInvestment } from "./SavingsFormHorizontal";
 
-type UnitConversion = {
-  fromUnit: string;
-  toUnit: string;
-  factor: number;
-};
-
-const data: UnitConversion[] = [
-  {
-    fromUnit: "inches",
-    toUnit: "millimetres (mm)",
-    factor: 25.4
-  },
-  {
-    fromUnit: "feet",
-    toUnit: "centimetres (cm)",
-    factor: 30.48
-  },
-  {
-    fromUnit: "yards",
-    toUnit: "metres (m)",
-    factor: 0.91444
-  }
-];
-
-const columnHelper = createColumnHelper<UnitConversion>();
+const columnHelper = createColumnHelper<IInvestment>();
 
 const columns = [
-  columnHelper.accessor("fromUnit", {
+  columnHelper.accessor("initialInvestmentValue", {
     cell: (info) => info.getValue(),
-    header: "To convert"
+    header: "To convert",
+    meta: {
+      isNumeric: true
+    }
   }),
-  columnHelper.accessor("toUnit", {
+  columnHelper.accessor("createdAt", {
     cell: (info) => info.getValue(),
     header: "Into"
   }),
-  columnHelper.accessor("factor", {
+  columnHelper.accessor("category", {
     cell: (info) => info.getValue(),
     header: "Multiply by",
     meta: {
@@ -48,8 +28,12 @@ const columns = [
   })
 ];
 
-export function TransactionsTable() {
+interface ITransactionsTableProps {
+  investments: IInvestment[]
+}
+
+export function TransactionsTable({ investments } : ITransactionsTableProps) {
   return (
-    <DataTable columns={columns} data={data} />
+    <DataTable columns={columns} data={investments} />
   )
 }

@@ -5,10 +5,10 @@ import * as React from 'react'
 
 export default function Transactions(): React.ReactNode {
 
-  const [values, setValues] = React.useState({})
+  const [values, setValues] = React.useState<IInvestment[]>([])
  
   const handleSubmit = (investment: IInvestment) => {
-    setValues(investment)
+    setValues([...values, investment])
   }
 
   return (
