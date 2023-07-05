@@ -1,5 +1,6 @@
 'use client'
 
+import { z } from 'zod'
 import {
   Box,
   Button,
@@ -12,10 +13,13 @@ import {
   Textarea,
   useColorModeValue,
   VStack,
-} from "@chakra-ui/react";
-import { SingleDatepicker } from "chakra-dayzed-datepicker";
-import { Select } from "chakra-react-select";
-import React from "react";
+} from "@chakra-ui/react"
+import { SingleDatepicker } from "chakra-dayzed-datepicker"
+import { Select } from "chakra-react-select"
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import React from "react"
+import ControlledSelect from './ControlledSelect'
 
 const sources = [
   {
@@ -45,11 +49,45 @@ const categories = [
   },
 ]
 
+const selectOptionSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+});
+
+type SignupReason = z.infer<typeof selectOptionSchema>;
+
+
+export const TransactionSchema = z.object({
+  amount: z.number().min(0),
+  transactionCategoryId: z.string(),
+  category: z.string(),
+  createdAt: z.string(),
+  description: z.string().optional().nullable(),
+})
+
+export type TransactionData = z.infer<typeof TransactionSchema>
+
+
 export default function TransactionForm() {
 
 
   const [value, setValue] = React.useState('')
   const [date, setDate] = React.useState(new Date())
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isDirty, isSubmitting },
+    control,
+    reset
+  } = useForm<TransactionData>({
+    // defaultValues: deserializeStudentData(studentData),
+    resolver: zodResolver(TransactionSchema)
+  })
+
+  const createTransaction = (data: TransactionData) => {
+    console.log('data', data)
+  }
 
   return (
     <Flex
@@ -76,64 +114,74 @@ export default function TransactionForm() {
                 color={useColorModeValue("gray.700", "whiteAlpha.900")}
                 shadow="base"
               >
-                <VStack spacing={5}>
-                  <FormControl isRequired>
-                    <FormLabel>Value</FormLabel>
-                    <NumberInput
-                      onChange={setValue}
-                      value={value}
+                <form noValidate onSubmit={handleSubmit(createTransaction)}>
+                  <VStack spacing={5}>
+                    <FormControl isRequired>
+                      <FormLabel>Value doido</FormLabel>
+                      <NumberInput
+                      >
+                        <NumberInputField {...register('amount')} />
+                      </NumberInput>
+                    </FormControl>
+
+                    <FormControl isRequired>
+                      <FormLabel>Category</FormLabel>
+                      <ControlledSelect<TransactionData, SignupReason, true>
+                        isMulti
+                        name='category'
+                        control={control}
+                        label="Reasons for Sign Up (at least 2)"
+                        placeholder="Select some reasons"
+                        options={categories}
+                        useBasicStyles
+                      />
+                      {/* <Select
+                        colorScheme="purple"
+                        {...register('category')}
+                        options={categories}
+                      /> */}
+                    </FormControl>
+
+                    <FormControl isRequired>
+                      <FormLabel>Source</FormLabel>
+                      <Select
+                        colorScheme="purple"
+                        options={sources}
+                      />
+                    </FormControl>
+
+                    <FormControl isRequired>
+                      <FormLabel>Date</FormLabel>
+                      <SingleDatepicker
+                        name="date-input"
+                        date={date}
+                        onDateChange={setDate}
+                      />
+                    </FormControl>
+
+                    <FormControl>
+                      <FormLabel>Description</FormLabel>
+
+                      <Textarea
+                        name="message"
+                        placeholder="Transaction Description"
+                        rows={3}
+                        resize="none"
+                      />
+                    </FormControl>
+
+                    <Button
+                      colorScheme="blue"
+                      bg="blue.400"
+                      color="white"
+                      _hover={{
+                        bg: "blue.500",
+                      }}
                     >
-                      <NumberInputField />
-                    </NumberInput>
-                  </FormControl>
-
-                  <FormControl isRequired>
-                    <FormLabel>Category</FormLabel>
-                    <Select
-                      colorScheme="purple"
-                      options={categories}
-                    />
-                  </FormControl>
-
-                  <FormControl isRequired>
-                    <FormLabel>Source</FormLabel>
-                    <Select
-                      colorScheme="purple"
-                      options={sources}
-                    />
-                  </FormControl>
-
-                  <FormControl isRequired>
-                    <FormLabel>Date</FormLabel>
-                    <SingleDatepicker
-                      name="date-input"
-                      date={date}
-                      onDateChange={setDate}
-                    />
-                  </FormControl>
-
-                  <FormControl>
-                    <FormLabel>Description</FormLabel>
-
-                    <Textarea
-                      name="message"
-                      placeholder="Transaction Description"
-                      rows={3}
-                      resize="none"
-                    />
-                  </FormControl>
-
-                  <Button
-                    colorScheme="blue"
-                    bg="blue.400"
-                    color="white"
-                    _hover={{
-                      bg: "blue.500",
-                    }}
-                  >
-                    Add transaction
-                  </Button>
-                </VStack>
+                      Add transaction
+                    </Button>
+                  </VStack>
+                </form>
               </Box>
             </Stack>
           </VStack>
@@ -142,3 +190,4 @@ export default function TransactionForm() {
     </Flex>
   );
 }
+

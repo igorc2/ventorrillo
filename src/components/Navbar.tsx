@@ -65,6 +65,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   children,
   currentUser,
 }) => {
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
@@ -167,8 +168,6 @@ interface MobileNavProps extends FlexProps {
 }
 const MobileNav: React.FC<MobileNavProps> = ({ onOpen, currentUser, ...rest }) => {
 
-  console.log('currentUser', currentUser)
-
 
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
@@ -224,7 +223,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ onOpen, currentUser, ...rest }) =
               <HStack>
                 <Avatar
                   size={'sm'}
-                  src={currentUser?.image || 'https://avatars.githubusercontent.com/u/8186664?v=4'}
+                  src={currentUser?.image}
                 />
                 <VStack
                   display={{ base: 'none', md: 'flex' }}

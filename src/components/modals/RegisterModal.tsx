@@ -11,8 +11,6 @@ import {
   useForm
 } from 'react-hook-form'
 
-// import useLoginModal from '@/app/hooks/useLoginModal'
-
 import { Modal } from './Modal'
 import { Heading } from '../heading'
 import {
@@ -30,11 +28,12 @@ import {
 import { useToast } from '@chakra-ui/react'
 import useRegisterModal from '@/hooks/useRegisterModal'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import useLoginModal from '@/hooks/useLoginModal'
 
 
 export const RegisterModal= () => {
   const registerModal = useRegisterModal()
-  // const loginModal = useLoginModal()
+  const loginModal = useLoginModal()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -85,9 +84,8 @@ export const RegisterModal= () => {
 
   const onToggle = useCallback(() => {
     registerModal.onClose();
-    // loginModal.onOpen();
-  // }, [registerModal, loginModal])
-  }, [registerModal])
+    loginModal.onOpen();
+  }, [registerModal, loginModal])
 
   const bodyContent = (
     <Flex gap={4} direction={'column'}>
@@ -158,7 +156,7 @@ export const RegisterModal= () => {
           variant='outline'
           leftIcon={<FcGoogle />}
           w='full'
-          // onClick={() => signIn('google')} 
+          onClick={() => signIn('google')} 
         >
           Continue with Google
         </Button>

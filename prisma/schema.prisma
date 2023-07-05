@@ -21,7 +21,7 @@ model User {
 
   accounts Account[]
   transactions Transaction[]
-  userSources UserSource[]
+  sources Source[]
 }
 
 model Account {
@@ -47,7 +47,6 @@ model Transaction {
   amount Float
   description String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   transactionCategory TransactionCategory @relation(fields: [transactionCategoryId], references: [id])
   transactionCategoryId String @db.ObjectId
@@ -57,8 +56,6 @@ model Transaction {
 
   source Source @relation(fields: [sourceId], references: [id])
   sourceId String @db.ObjectId
-
-  @@unique([userId])
   
 }
 
@@ -80,15 +77,8 @@ model Source {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   description String?
-
-  userSources UserSource[]
-  transactions Transaction[]
-}
-
-model UserSource {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
   userId String @db.ObjectId
-  sourceId String @db.ObjectId
   user User @relation(fields: [userId], references: [id])
-  source Source @relation(fields: [sourceId], references: [id])
+
+  transactions Transaction[]
 }

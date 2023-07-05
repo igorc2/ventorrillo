@@ -30,10 +30,13 @@ import { useToast } from '@chakra-ui/react'
 import useLoginModal from '@/hooks/useLoginModal'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useRouter } from 'next/navigation'
+import { RegisterModal } from './RegisterModal'
+import useRegisterModal from '@/hooks/useRegisterModal'
 
 
 export const LoginModal= () => {
   const loginModal = useLoginModal()
+  const registerModal = useRegisterModal()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -89,7 +92,8 @@ export const LoginModal= () => {
 
   const onToggle = useCallback(() => {
     loginModal.onClose();
-  }, [loginModal])
+    registerModal.onOpen();
+  }, [loginModal, registerModal])
 
   const bodyContent = (
     <Flex gap={4} direction={'column'}>
@@ -145,7 +149,7 @@ export const LoginModal= () => {
           variant='outline'
           leftIcon={<FcGoogle />}
           w='full'
-          // onClick={() => signIn('google')} 
+          onClick={() => signIn('google')} 
         >
           Continue with Google
         </Button>
@@ -155,20 +159,20 @@ export const LoginModal= () => {
           variant='outline'
           w='full'
           leftIcon={<AiFillGithub />}
-          // onClick={() => signIn('github')} 
+          onClick={() => signIn('github')} 
         >
           Continue with Github
         </Button>
       </Center>
       <div
       >
-        <Text textAlign='center' fontSize='sm'>Already have an account?
+        <Text textAlign='center' fontSize='sm'>First time using Ventorrillo?
           <Text
             cursor={'pointer'}
             as='span'
             color='blue.600'
             onClick={onToggle}
-          > Log in </Text>
+          > Create an account </Text>
         </Text>
       </div>
     </Flex>
