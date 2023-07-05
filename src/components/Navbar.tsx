@@ -223,7 +223,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ onOpen, currentUser, ...rest }) =
               <HStack>
                 <Avatar
                   size={'sm'}
-                  src={currentUser?.image}
+                  src={currentUser?.image || ''}
                 />
                 <VStack
                   display={{ base: 'none', md: 'flex' }}

@@ -5,7 +5,7 @@ import {
   UseControllerProps,
 } from "react-hook-form";
 import { FormErrorMessage, FormLabel, FormControl } from "@chakra-ui/react";
-import { Select, Props as SelectProps, GroupBase } from "chakra-react-select";
+import { Select, Props as SelectProps, GroupBase, OnChangeValue } from "chakra-react-select";
 
 interface ControlledSelectProps<
   FormValues extends FieldValues = FieldValues,
@@ -47,6 +47,16 @@ function ControlledSelect<
     shouldUnregister,
   });
 
+  const onChange = (value: OnChangeValue<Option, IsMulti>) => {
+    const event = {
+      target: {
+        name: field.name,
+        value: value
+      }
+    } as unknown as React.ChangeEvent<HTMLInputElement>;
+    field.onChange(event);
+  }
+
   return (
     <FormControl id={name} isInvalid={!!error}>
       {label && <FormLabel>{label}</FormLabel>}
@@ -54,6 +64,7 @@ function ControlledSelect<
         options={options}
         {...selectProps}
         {...field}
+        onChange={onChange}
       />
       <FormErrorMessage>{error?.message}</FormErrorMessage>
     </FormControl>

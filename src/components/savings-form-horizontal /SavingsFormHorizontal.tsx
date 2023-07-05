@@ -100,26 +100,26 @@ export function SavingsFormHorizontal (props : SavingFormsHorizontalProps) : JSX
 
               <FormControl isRequired>
                 <FormLabel>Type</FormLabel>
-                <Controller
+                {/* <Controller
                   name="category"
                   control={control}
                   render={({ field }) => <Select 
                     {...field} 
                     options={categories} 
                   />}
-                />
+                /> */}
               </FormControl>
 
               <FormControl isRequired>
                 <FormLabel>Institution</FormLabel>
-                <Controller
+                {/* <Controller
                   name="institution"
                   control={control}
                   render={({ field }) => <Select 
                     {...field} 
                     options={sources} 
                   />}
-                />
+                /> */}
               </FormControl>
 
               <FormControl isRequired>
