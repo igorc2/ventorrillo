@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, chakra, Card, Box, useColorModeValue } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, chakra, Box, useColorModeValue } from "@chakra-ui/react";
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
 import {
   useReactTable,

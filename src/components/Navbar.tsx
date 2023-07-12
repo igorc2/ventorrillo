@@ -34,6 +34,9 @@ import {
   FiBell,
   FiChevronDown,
 } from 'react-icons/fi';
+import {
+  GoStack
+} from 'react-icons/go';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import { SunIcon } from '@chakra-ui/icons';
@@ -51,6 +54,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Home', icon: FiHome, url: '/' },
   { name: 'Transactions', icon: FiTrendingUp, url: '/transactions' },
+  { name: 'Investments', icon: GoStack, url: '/investments' },
   { name: 'Savings', icon: MdOutlineSavings, url: '/savings' },
   { name: 'Favourites', icon: FiStar, url: '/' },
   { name: 'Settings', icon: FiSettings, url: '/' },

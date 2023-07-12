@@ -22,6 +22,7 @@ model User {
   accounts Account[]
   transactions Transaction[]
   sources Source[]
+  investments Investment[]
 }
 
 model Account {
@@ -81,4 +82,33 @@ model Source {
   user User @relation(fields: [userId], references: [id])
 
   transactions Transaction[]
+}
+
+enum InvestmentType {
+  FIXED
+  VARIABLE
+  FUND
+}
+
+
+model Investment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String?
+  type InvestmentType
+  netValue Float
+  investedValue Float
+  createdAt DateTime
+  updatedAt DateTime @default(now())
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+  positions InvestmentPosition[]
+}
+
+model InvestmentPosition {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  netValue Float
+  updatedAt DateTime @default(now())
+  investmentId String @db.ObjectId
+  investment Investment @relation(fields: [investmentId], references: [id])
 }

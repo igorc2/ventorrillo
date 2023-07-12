@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { DataTable } from "../transations-table/DataTable";
+import { DataTable } from "../data-table";
 import { IInvestment } from "./SavingsFormHorizontal";
 
 const columnHelper = createColumnHelper<IInvestment>();

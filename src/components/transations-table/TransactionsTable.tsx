@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { DataTable } from "./DataTable";
+import { DataTable } from "../data-table/DataTable";
 
 type UnitConversion = {
   fromUnit: string;
