@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import React from "react";
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import ControlledSelect from '@/components/ControlledSelect'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ControlledSelect from "@/components/ControlledSelect";
 import {
   Box,
   Button,
@@ -19,51 +19,55 @@ import {
 } from "@chakra-ui/react";
 import { ControlledDatePicker } from "@/components/ControlledDatePicker";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Investment } from "@prisma/client";
-import { InvestmentPositionData, InvestmentPositionSchema, Option } from "../types";
+import {
+  InvestmentPositionData,
+  InvestmentPositionSchema,
+  Option,
+} from "../types";
 
 interface PositionFormProps {
-  investments: Investment[]
+  investments: Investment[];
 }
 
-export const PositionForm: React.FC<PositionFormProps> = ({investments}) => {
-  
+export const PositionForm: React.FC<PositionFormProps> = ({ investments }) => {
   const investmentOptions = investments.map((investment) => ({
     label: investment.name,
     value: investment.id,
-  }))
+  }));
 
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isSubmitting },
     control,
-    reset
+    reset,
   } = useForm<InvestmentPositionData>({
     defaultValues: {
       updatedAt: new Date(),
       netValue: undefined,
     },
-    resolver: zodResolver(InvestmentPositionSchema)
-  })
+    resolver: zodResolver(InvestmentPositionSchema),
+  });
 
   const createInvestment = (data: InvestmentPositionData) => {
-
     const postData = {
       ...data,
       investmentId: data.investment.value,
-    }
+    };
 
-    axios.post('api/position', postData)
-      .then(() => {
-        toast.success('Investment created successfully')
-        reset()
-      }, (error) => {
-        console.log('error', error)
-        toast.error('Error creating investment ')
-      })
-  }
+    axios.post("api/position", postData).then(
+      () => {
+        toast.success("Investment created successfully");
+        reset();
+      },
+      (error) => {
+        console.log("error", error);
+        toast.error("Error creating investment ");
+      }
+    );
+  };
 
   return (
     <Stack
@@ -71,6 +75,7 @@ export const PositionForm: React.FC<PositionFormProps> = ({investments}) => {
       direction={{ base: "column", md: "row" }}
       mb={8}
     >
+      <Toaster />
       <Box
         width="100%"
         bg={useColorModeValue("white", "gray.700")}
@@ -83,8 +88,8 @@ export const PositionForm: React.FC<PositionFormProps> = ({investments}) => {
           <pre>{JSON.stringify(errors)}</pre>
           <Stack spacing={5} direction={{ base: "column", md: "row" }}>
             <FormControl isRequired>
-              <ControlledSelect<InvestmentPositionData, Option, true> 
-                name='investment'
+              <ControlledSelect<InvestmentPositionData, Option, true>
+                name="investment"
                 control={control}
                 label="Type"
                 placeholder="Select a type"
@@ -96,12 +101,12 @@ export const PositionForm: React.FC<PositionFormProps> = ({investments}) => {
             <FormControl isRequired>
               <FormLabel>Value</FormLabel>
               <NumberInput>
-                <NumberInputField {...register('netValue')} />
+                <NumberInputField {...register("netValue")} />
               </NumberInput>
-             </FormControl>
+            </FormControl>
 
             <ControlledDatePicker
-              name='updatedAt'
+              name="updatedAt"
               control={control}
               label="Date"
             />
@@ -111,7 +116,7 @@ export const PositionForm: React.FC<PositionFormProps> = ({investments}) => {
               bg="blue.400"
               color="white"
               width={400}
-              alignSelf={{base: "center", md: "end"}}
+              alignSelf={{ base: "center", md: "end" }}
               _hover={{
                 bg: "blue.500",
               }}
@@ -123,5 +128,5 @@ export const PositionForm: React.FC<PositionFormProps> = ({investments}) => {
         </form>
       </Box>
     </Stack>
-  )
-}
+  );
+};
