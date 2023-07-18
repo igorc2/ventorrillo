@@ -1,19 +1,14 @@
-'use client'
+"use client";
 
-import axios from 'axios'
-import { signIn } from 'next-auth/react'
-import { AiFillGithub } from 'react-icons/ai'
-import { FcGoogle } from 'react-icons/fc'
-import { useCallback, useState } from 'react'
-import { 
-  FieldValues, 
-  SubmitHandler,
-  useForm
-} from 'react-hook-form'
+import axios from "axios";
+import { signIn } from "next-auth/react";
+import { AiFillGithub } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
+import { useCallback, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-
-import { Modal } from './Modal'
-import { Heading } from '../heading'
+import { Modal } from "./Modal";
+import { Heading } from "../heading";
 import {
   Button,
   Center,
@@ -24,92 +19,86 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Text
-} from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/react'
-import useLoginModal from '@/hooks/useLoginModal'
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import { useRouter } from 'next/navigation'
-import { RegisterModal } from './RegisterModal'
-import useRegisterModal from '@/hooks/useRegisterModal'
+  Text,
+} from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
+import useLoginModal from "@/hooks/useLoginModal";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/navigation";
+import { RegisterModal } from "./RegisterModal";
+import useRegisterModal from "@/hooks/useRegisterModal";
 
+export const LoginModal = () => {
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
-export const LoginModal= () => {
-  const loginModal = useLoginModal()
-  const registerModal = useRegisterModal()
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const toast = useToast();
 
-  const toast = useToast()
-
-  const { 
+  const {
     register,
     handleSubmit,
-    formState: {
-      errors,
-    },
+    formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      email: '',
-      password: ''
+      email: "",
+      password: "",
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-
     setIsLoading(true);
 
-    console.log('data :>> ', data);
+    console.log("data :>> ", data);
 
-    signIn('credentials', {
+    signIn("credentials", {
       ...data,
       redirect: false,
-    })
-    .then((callback) => {
+    }).then((callback) => {
       if (callback?.ok) {
         toast({
-          title: 'Success',
-          description: 'Logged in successfully',
-          status: 'success',
-          duration: 9000,
+          title: "Success",
+          description: "Logged in successfully",
+          status: "success",
+          duration: 4000,
           isClosable: true,
-        })
-        router.refresh()
-        loginModal.onClose()
+        });
+        router.refresh();
+        loginModal.onClose();
       } else {
         toast({
-          title: 'Error',
+          title: "Error",
           description: callback?.error,
-          status: 'error',
-          duration: 9000,
+          status: "error",
+          duration: 4000,
           isClosable: true,
-        })
+        });
       }
-    })
-
-  }
+    });
+  };
 
   const onToggle = useCallback(() => {
     loginModal.onClose();
     registerModal.onOpen();
-  }, [loginModal, registerModal])
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
-    <Flex gap={4} direction={'column'}>
+    <Flex gap={4} direction={"column"}>
       <Heading
         title="Welcome back to Ventorrillo"
         subtitle="Log in to your account!"
       />
-      <FormControl isInvalid={!!errors.email} >
+      <FormControl isInvalid={!!errors.email}>
         <FormLabel>Email address</FormLabel>
         <Input
-          type="email" 
+          type="email"
           id="email"
           disabled={isLoading}
-          {...register('email', {
-            required: 'This is required',
-            minLength: { value: 4, message: 'Minimum length should be 4' },
+          {...register("email", {
+            required: "This is required",
+            minLength: { value: 4, message: "Minimum length should be 4" },
           })}
         />
         <FormErrorMessage>
@@ -121,62 +110,64 @@ export const LoginModal= () => {
         <InputGroup>
           <Input
             id="password"
-            type={showPassword ? 'text' : 'password'}
-            {...register('password', {
-              required: 'This is required',
-              minLength: { value: 4, message: 'Minimum length should be 4' },
-            })}  
+            type={showPassword ? "text" : "password"}
+            {...register("password", {
+              required: "This is required",
+              minLength: { value: 4, message: "Minimum length should be 4" },
+            })}
           />
-          <InputRightElement h={'full'}>
+          <InputRightElement h={"full"}>
             <Button
-              variant={'ghost'}
-              onClick={() =>
-                setShowPassword((showPassword) => !showPassword)
-              }>
+              variant={"ghost"}
+              onClick={() => setShowPassword((showPassword) => !showPassword)}
+            >
               {showPassword ? <ViewIcon /> : <ViewOffIcon />}
             </Button>
           </InputRightElement>
         </InputGroup>
       </FormControl>
     </Flex>
-  )
+  );
 
   const footerContent = (
-    <Flex direction={'column'} w='full' mt='5' gap='5'>
+    <Flex direction={"column"} w="full" mt="5" gap="5">
       <hr />
       <Center>
         <Button
-          variant='outline'
+          variant="outline"
           leftIcon={<FcGoogle />}
-          w='full'
-          onClick={() => signIn('google')} 
+          w="full"
+          onClick={() => signIn("google")}
         >
           Continue with Google
         </Button>
       </Center>
       <Center>
-        <Button 
-          variant='outline'
-          w='full'
+        <Button
+          variant="outline"
+          w="full"
           leftIcon={<AiFillGithub />}
-          onClick={() => signIn('github')} 
+          onClick={() => signIn("github")}
         >
           Continue with Github
         </Button>
       </Center>
-      <div
-      >
-        <Text textAlign='center' fontSize='sm'>First time using Ventorrillo?
+      <div>
+        <Text textAlign="center" fontSize="sm">
+          First time using Ventorrillo?
           <Text
-            cursor={'pointer'}
-            as='span'
-            color='blue.600'
+            cursor={"pointer"}
+            as="span"
+            color="blue.600"
             onClick={onToggle}
-          > Create an account </Text>
+          >
+            {" "}
+            Create an account{" "}
+          </Text>
         </Text>
       </div>
     </Flex>
-  )
+  );
 
   return (
     <Modal
@@ -190,4 +181,4 @@ export const LoginModal= () => {
       footer={footerContent}
     />
   );
-}
+};

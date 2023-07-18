@@ -10,16 +10,14 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Input,
   NumberInput,
   NumberInputField,
   Stack,
-  Textarea,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { ControlledDatePicker } from "@/components/ControlledDatePicker";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { useToast } from "@chakra-ui/react";
 import { Investment } from "@prisma/client";
 import {
   InvestmentPositionData,
@@ -36,6 +34,8 @@ export const PositionForm: React.FC<PositionFormProps> = ({ investments }) => {
     label: investment.name,
     value: investment.id,
   }));
+
+  const toast = useToast();
 
   const {
     register,
@@ -59,12 +59,24 @@ export const PositionForm: React.FC<PositionFormProps> = ({ investments }) => {
 
     axios.post("api/position", postData).then(
       () => {
-        toast.success("Investment created successfully");
+        toast({
+          title: "Success",
+          description: "Investment created successfully",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        });
         reset();
       },
       (error) => {
         console.log("error", error);
-        toast.error("Error creating investment ");
+        toast({
+          title: "Ruim!",
+          description: "Error creating investment",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
+        });
       }
     );
   };
@@ -75,7 +87,6 @@ export const PositionForm: React.FC<PositionFormProps> = ({ investments }) => {
       direction={{ base: "column", md: "row" }}
       mb={8}
     >
-      <Toaster />
       <Box
         width="100%"
         bg={useColorModeValue("white", "gray.700")}

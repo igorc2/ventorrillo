@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import React from "react";
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import ControlledSelect from '@/components/ControlledSelect'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ControlledSelect from "@/components/ControlledSelect";
 import {
   Box,
   Button,
@@ -25,63 +25,65 @@ import { NewInvestmentData, NewInvestmentSchema, Option } from "../types";
 
 const investmentTypeOptions = [
   {
-    label: 'Fixed income',
-    value:  InvestmentType.FIXED,
+    label: "Fixed income",
+    value: InvestmentType.FIXED,
   },
   {
-    label: 'Variable income',
-    value:  InvestmentType.VARIABLE,
+    label: "Variable income",
+    value: InvestmentType.VARIABLE,
   },
   {
-    label: 'Investment fund',
-    value:  InvestmentType.FUND,
-  },  
-]
+    label: "Investment fund",
+    value: InvestmentType.FUND,
+  },
+];
 
 interface InvestmentFormProps {
-  investments: Investment[]
+  investments: Investment[];
 }
 
-export const InvestmentForm: React.FC<InvestmentFormProps> = ({investments}) => {
-  
-  console.log('investments', investments)
+export const InvestmentForm: React.FC<InvestmentFormProps> = ({
+  investments,
+}) => {
+  console.log("investments", investments);
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isSubmitting },
     control,
-    reset
+    reset,
   } = useForm<NewInvestmentData>({
     defaultValues: {
-      investedValue: '',
-      name: '',
+      investedValue: "",
+      name: "",
       type: undefined,
       createdAt: new Date(),
-      description: '',
+      description: "",
     },
-    resolver: zodResolver(NewInvestmentSchema)
-  })
+    resolver: zodResolver(NewInvestmentSchema),
+  });
 
   const createInvestment = (data: NewInvestmentData) => {
-
     const postData = {
       ...data,
       updatedAt: data.createdAt,
       netValue: data.investedValue,
-    }
+    };
 
-    console.log('data', data)
+    console.log("data", data);
 
-    axios.post('api/investment', postData)
-      .then((data) => {
-        console.log('criout investment', data)
-        toast.success('Investment created successfully')
-        reset()
-      }, (error) => {
-        console.log('error', error)
-        toast.error('Error creating investment ')
-      })
-  }
+    axios.post("api/investment", postData).then(
+      (data) => {
+        console.log("criout investment", data);
+        toast.success("Investment created successfully");
+        reset();
+      },
+      (error) => {
+        console.log("error", error);
+        toast.error("Error creating investment ");
+      }
+    );
+  };
 
   return (
     <Stack
@@ -100,22 +102,21 @@ export const InvestmentForm: React.FC<InvestmentFormProps> = ({investments}) => 
         <form noValidate onSubmit={handleSubmit(createInvestment)}>
           <Stack spacing={6}>
             <Stack spacing={5} direction={{ base: "column", md: "row" }}>
-              
               <FormControl isRequired>
                 <FormLabel>Name</FormLabel>
-                <Input {...register('name')} />
+                <Input {...register("name")} />
               </FormControl>
 
               <FormControl isRequired>
                 <FormLabel>Value</FormLabel>
                 <NumberInput>
-                  <NumberInputField {...register('investedValue')} />
+                  <NumberInputField {...register("investedValue")} />
                 </NumberInput>
               </FormControl>
 
               <FormControl isRequired>
                 <ControlledSelect<NewInvestmentData, Option, true>
-                  name='type'
+                  name="type"
                   control={control}
                   label="Type"
                   placeholder="Select a type"
@@ -125,11 +126,10 @@ export const InvestmentForm: React.FC<InvestmentFormProps> = ({investments}) => 
               </FormControl>
 
               <ControlledDatePicker
-                name='createdAt'
+                name="createdAt"
                 control={control}
                 label="Date"
               />
-
             </Stack>
             <FormControl>
               <FormLabel>Description</FormLabel>
@@ -138,7 +138,7 @@ export const InvestmentForm: React.FC<InvestmentFormProps> = ({investments}) => 
                 placeholder="Transaction Description"
                 rows={2}
                 resize="none"
-                {...register('description')}
+                {...register("description")}
               />
             </FormControl>
             <Button
@@ -146,7 +146,7 @@ export const InvestmentForm: React.FC<InvestmentFormProps> = ({investments}) => 
               bg="blue.400"
               color="white"
               width={200}
-              alignSelf={{base: "center", md: "end"}}
+              alignSelf={{ base: "center", md: "end" }}
               _hover={{
                 bg: "blue.500",
               }}
@@ -158,5 +158,5 @@ export const InvestmentForm: React.FC<InvestmentFormProps> = ({investments}) => 
         </form>
       </Box>
     </Stack>
-  )
-}
+  );
+};
