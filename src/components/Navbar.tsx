@@ -45,6 +45,7 @@ import useLoginModal from '@/hooks/useLoginModal';
 import { signOut } from 'next-auth/react'
 import { SafeUser } from '@/types';
 import { MdOutlineSavings } from 'react-icons/md';
+import Image from 'next/image';
 
 interface LinkItemProps {
   name: string
@@ -113,10 +114,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       pos="fixed"
       h="full"
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex h="20" alignItems="center" mx="8" mt="2" justifyContent="center">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           <Button as={"a"} href={"/"} variant={"link"}>
-            Logo
+            <Image src="/logo.jpeg" alt="logo" width="90" height="90" />
           </Button>
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
@@ -195,14 +196,6 @@ const MobileNav: React.FC<MobileNavProps> = ({ onOpen, currentUser, ...rest }) =
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold">
-        Logo
-      </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
         <IconButton
